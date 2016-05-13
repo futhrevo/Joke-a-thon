@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jokesmith.jokesmith">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/jokesmith/build/libs/jokesmith.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
