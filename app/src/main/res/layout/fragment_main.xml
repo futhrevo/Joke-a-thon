@@ -33,4 +33,14 @@
         ads:adUnitId="@string/banner_ad_unit_id">
     </com.google.android.gms.ads.AdView>
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_above="@+id/adView"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"
+        android:layout_margin="15dp"
+        android:visibility="invisible" />
+
 </RelativeLayout>

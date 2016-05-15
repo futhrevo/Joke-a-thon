@@ -6,6 +6,7 @@
 
 package com.example.rakeshkalyankar.builditbigger.backend;
 
+import com.example.JokeSmith;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
@@ -33,4 +34,12 @@ public class MyEndpoint {
         return response;
     }
 
+    @ApiMethod(name = "getJoke")
+    public MyBean getJoke(){
+        MyBean response = new MyBean();
+        JokeSmith jokeSmith = new JokeSmith();
+        response.setData(jokeSmith.getJoke());
+
+        return response;
+    }
 }

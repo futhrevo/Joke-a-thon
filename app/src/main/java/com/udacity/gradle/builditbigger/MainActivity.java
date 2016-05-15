@@ -1,22 +1,54 @@
 package com.udacity.gradle.builditbigger;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
-import com.example.JokeSmith;
-import com.udacity.reku.jokeput.JokeLibActivity;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 
 public class MainActivity extends ActionBarActivity {
 
+    private ProgressBar progressBar;
+    InterstitialAd interstitialAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        interstitialAd = new InterstitialAd(this);
+        interstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+
+        interstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+                new EndpointsAsyncTask().execute(new Pair<Context, String>(MainActivity.this, "DownloadJoke"));
+            }
+        });
+
+        requestNewInterstitial();
+    }
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        interstitialAd.loadAd(adRequest);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
 
@@ -43,11 +75,13 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void tellJoke(View view){
-        JokeSmith jokeSmith = new JokeSmith();
-//        Toast.makeText(this, jokeSmith.getJoke(), Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, JokeLibActivity.class);
-        intent.putExtra(JokeLibActivity.JOKE_INTENT_KEY, jokeSmith.getJoke());
-        startActivity(intent);
+        progressBar.setVisibility(View.VISIBLE);
+
+        if(interstitialAd.isLoaded()){
+            interstitialAd.show();
+        }else{
+            new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "DownloadJoke"));
+        }
     }
 
 
