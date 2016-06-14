@@ -21,6 +21,14 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
     private static MyApi myApiService = null;
     private Context context;
 
+    public EndpointsAsyncTask(Context context) {
+        this.context = context;
+    }
+
+    public EndpointsAsyncTask(){
+
+    }
+
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
         if(myApiService == null){ //do this only once
