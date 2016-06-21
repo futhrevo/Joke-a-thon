@@ -17,3 +17,11 @@ allprojects {
         jcenter()
     }
 }
+
+task GCETestTask{
+    dependsOn = [":backend:appengineRun", ":app:connectedCheck", ":backend:appengineStop"]
+    doLast{
+        println 'test completed'
+
+    }
+}

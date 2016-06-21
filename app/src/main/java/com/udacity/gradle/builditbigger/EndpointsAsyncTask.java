@@ -1,8 +1,10 @@
 package com.udacity.gradle.builditbigger;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.util.Pair;
 
 import com.example.rakeshkalyankar.builditbigger.backend.myApi.MyApi;
@@ -31,6 +33,7 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
+        Log.i("EndpointsAsynctask", "do in Background called");
         if(myApiService == null){ //do this only once
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
                     // options for running against local devappserver
@@ -60,8 +63,10 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
     @Override
     protected void onPostExecute(String result) {
 //        Toast.makeText(context, result, Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(context, JokeLibActivity.class);
-        intent.putExtra(JokeLibActivity.JOKE_INTENT_KEY, result);
-        context.startActivity(intent);
+        if (context instanceof MainActivity) {
+            Intent intent = new Intent(context, JokeLibActivity.class);
+            intent.putExtra(JokeLibActivity.JOKE_INTENT_KEY, result);
+            context.startActivity(intent);
+        }
     }
 }
