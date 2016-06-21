@@ -1,6 +1,5 @@
 package com.udacity.gradle.builditbigger;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -37,7 +36,7 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
         if(myApiService == null){ //do this only once
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
                     // options for running against local devappserver
-                    .setRootUrl("http://192.168.1.192:8080/_ah/api")
+                    .setRootUrl("http://192.168.2.12:8080/_ah/api")
                     // - turn off compression when running against local devappserver
                     .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
                         @Override

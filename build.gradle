@@ -18,10 +18,36 @@ allprojects {
     }
 }
 
-task GCETestTask{
-    dependsOn = [":backend:appengineRun", ":app:connectedCheck", ":backend:appengineStop"]
+task jstartAppEngine(dependsOn: ':backend:appengineRun'){
+    evaluationDependsOn(":backend")
+    project(":backend") {
+        appengine {
+            daemon true
+        }
+    }
     doLast{
-        println 'test completed'
+        println "---------Test--------: start app engine"
+    }
+}
+
+task jstopAppEngine (dependsOn: ':backend:appengineStop'){
+    doLast{
+        println "---------Test--------: stop app engine"
+    }
+}
+task jrunAllTests (dependsOn: ':app:connectedAndroidTest'){
+    mustRunAfter "jstartAppEngine"
+    doLast{
+        println '---------Test--------:  running tests'
+    }
+}
+task GCETestTask{
+    dependsOn = ["jstartAppEngine", "jrunAllTests", "jstopAppEngine"]
+
+    doLast{
+        println '---------Test--------:  test completed'
 
     }
 }
+
+jstopAppEngine.mustRunAfter jrunAllTests
