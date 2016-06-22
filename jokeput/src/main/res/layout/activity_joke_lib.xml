@@ -17,5 +17,6 @@
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="@color/abc_btn_colored_borderless_text_material" />
 </RelativeLayout>
